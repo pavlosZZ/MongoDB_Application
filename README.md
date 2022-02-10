@@ -3,7 +3,7 @@
 #
 Requirements: Java 11, MongoDB Compass & Maven.
 
-First, create a database, named 'University', in ````MongoDB Compass```` with four collections: *Student, Professor, Lesson and Classroom*.
+First, create a database, named '*University*', in ````MongoDB Compass```` with four collections: *Student, Professor, Lesson and Classroom*.
 
 #
 Then, find the UniversityApplication.class from the path ````src/main/java/com/mongodb/university```` ,
