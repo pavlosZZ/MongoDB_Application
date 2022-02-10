@@ -3,6 +3,7 @@ package com.mongodb.university.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,8 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public Student addNewStudent(Student student) {
-		student.setId(counter.getNextSequence("Student"));
+//		student.setId(counter.getNextSequence("Student"));
+		student.setId(new ObjectId());
 		return studentRepo.save(student);
 	}
 
@@ -54,16 +56,17 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public Student updateStudent(Student student, long id) throws Exception {
+		return student;
 
-		if (studentRepo.findById(id) != null) {
-			student.setId(id);
-
-			studentRepo.save(student);
-
-			return student;
-		} else {
-			throw new Exception();
-		}
+//		if (studentRepo.findById(id) != null) {
+//			student.setId(id);
+//
+//			studentRepo.save(student);
+//
+//			return student;
+//		} else {
+//			throw new Exception();
+//		}
 
 	}
 
