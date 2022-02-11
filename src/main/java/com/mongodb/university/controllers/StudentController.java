@@ -28,7 +28,7 @@ public class StudentController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Student> getEmployeeById(@PathVariable("id") String id) throws Exception {
+	public ResponseEntity<Student> getStudentById(@PathVariable("id") String id) throws Exception {
 		return new ResponseEntity<Student>(studentService.getStudentById(id), HttpStatus.OK);
 	}
 
@@ -45,7 +45,7 @@ public class StudentController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable("id") String id) throws Exception {
+	public ResponseEntity<String> deleteStudent(@PathVariable("id") String id) throws Exception {
 		studentService.deleteStudent(id);
 		return new ResponseEntity<String>("Student has deleted successfully!", HttpStatus.OK);
 	}

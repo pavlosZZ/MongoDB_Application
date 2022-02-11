@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.university.models.Classroom;
 import com.mongodb.university.models.Lesson;
+import com.mongodb.university.models.Professor;
 import com.mongodb.university.services.IClassroomService;
 
 
@@ -35,6 +36,12 @@ public class ClassroomController {
 	@GetMapping
 	public List<Classroom> getAllClassrooms(){
 		return classroomService.getAllClassrooms();
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Classroom> getClassroomById(@PathVariable("id") String id) throws Exception {
+		return new ResponseEntity<Classroom>(classroomService.getClassroomById(id), HttpStatus.OK);
+
 	}
 	
 	@PostMapping
