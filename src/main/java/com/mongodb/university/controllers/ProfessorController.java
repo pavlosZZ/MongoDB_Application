@@ -39,19 +39,19 @@ public class ProfessorController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Professor> getProfessorById(@PathVariable("id") long id) throws Exception {
+	public ResponseEntity<Professor> getProfessorById(@PathVariable("id") String id) throws Exception {
 		return new ResponseEntity<Professor>(professorService.getProfessorById(id), HttpStatus.OK);
 
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Professor> updateProfessor(@PathVariable("id") long id, @RequestBody Professor professor)
+	public ResponseEntity<Professor> updateProfessor(@PathVariable("id") String id, @RequestBody Professor professor)
 			throws Exception {
 		return new ResponseEntity<Professor>(professorService.updateProfessor(professor, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteProfessor(@PathVariable("id") long id) throws Exception {
+	public ResponseEntity<String> deleteProfessor(@PathVariable("id") String id) throws Exception {
 		professorService.deleteProfessor(id);
 		return new ResponseEntity<String>("Professor has deleted successfully!", HttpStatus.OK);
 

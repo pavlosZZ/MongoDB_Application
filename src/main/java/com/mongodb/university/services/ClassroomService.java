@@ -28,12 +28,12 @@ public class ClassroomService implements IClassroomService {
 
 	@Override
 	public Classroom addNewClassroom(Classroom classroom) {
-		classroom.setId(counter.getNextSequence("Classroom"));
+//		classroom.setId(counter.getNextSequence("Classroom"));
 		return classroomRepo.save(classroom);
 	}
 
 	@Override
-	public void deleteClassroom(long id) throws Exception {
+	public void deleteClassroom(String id) throws Exception {
 		if (classroomRepo.findById(id) != null)
 			classroomRepo.deleteById(id);
 		else
@@ -41,11 +41,20 @@ public class ClassroomService implements IClassroomService {
 
 	}
 
-	public Classroom getClassroomById(long id) throws Exception {
+	public Classroom getClassroomById(String id) throws Exception {
 		Classroom classroom = classroomRepo.findById(id).get();
 		if (classroom != null)
 			return classroom;
 		else
+			throw new Exception();
+	}
+
+	@Override
+	public Classroom updateClassroom(String id, Classroom classroom) throws Exception {
+		if (classroomRepo.findById(id) != null) {
+			classroom.setId(id);
+			return classroomRepo.save(classroom);
+		} else
 			throw new Exception();
 	}
 

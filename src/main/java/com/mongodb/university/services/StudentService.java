@@ -3,7 +3,6 @@ package com.mongodb.university.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,12 +41,12 @@ public class StudentService implements IStudentService {
 	@Override
 	public Student addNewStudent(Student student) {
 //		student.setId(counter.getNextSequence("Student"));
-		student.setId(new ObjectId());
+//		student.setId(String.valueOf(counter.getNextSequence("Student")));
 		return studentRepo.save(student);
 	}
 
 	@Override
-	public void deleteStudent(long id) throws Exception {
+	public void deleteStudent(String id) throws Exception {
 		if (studentRepo.findById(id) != null)
 			studentRepo.deleteById(id);
 		else
@@ -55,23 +54,22 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student updateStudent(Student student, long id) throws Exception {
-		return student;
+	public Student updateStudent(Student student, String id) throws Exception {
 
-//		if (studentRepo.findById(id) != null) {
-//			student.setId(id);
-//
-//			studentRepo.save(student);
-//
-//			return student;
-//		} else {
-//			throw new Exception();
-//		}
+		if (studentRepo.findById(id) != null) {
+			student.setId(id);
+
+			studentRepo.save(student);
+
+			return student;
+		} else {
+			throw new Exception();
+		}
 
 	}
 
 	@Override
-	public Student getStudentById(long id) throws Exception {
+	public Student getStudentById(String id) throws Exception {
 		Optional<Student> student = studentRepo.findById(id);
 		if (student.isPresent()) {
 			return student.get();
@@ -81,7 +79,7 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student updateProfessorsList(long stud_id, long prof_id) {
+	public Student updateProfessorsList(String stud_id, String prof_id) {
 		Student student = studentRepo.findById(stud_id).get();
 		Professor professor = professorRepo.findById(prof_id).get();
 		student.enrolledProfessor(professor);
@@ -89,7 +87,7 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student updateStudentsLesson(long stud_id, long lesson_id) {
+	public Student updateStudentsLesson(String stud_id, String lesson_id) {
 		Student student = studentRepo.findById(stud_id).get();
 		Lesson lesson = lessonRepo.findById(lesson_id).get();
 		student.setLesson(lesson);

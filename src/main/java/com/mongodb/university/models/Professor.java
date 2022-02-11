@@ -24,7 +24,7 @@ public class Professor {
 	
 	
 	@Id
-	private long id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String expertization;
@@ -32,10 +32,10 @@ public class Professor {
 	private int age;
 	@JsonBackReference
     private Set<Student> students = new HashSet<>();
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFirstName() {

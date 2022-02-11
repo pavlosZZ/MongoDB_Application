@@ -29,12 +29,12 @@ public class ProfessorService implements IProfessorService {
 
 	@Override
 	public Professor addNewProfessor(Professor professor) {
-		professor.setId(counter.getNextSequence("Professor"));
+//		professor.setId(counter.getNextSequence("Professor"));
 		return professorRepo.save(professor);
 	}
 
 	@Override
-	public Professor getProfessorById(long id) throws Exception {
+	public Professor getProfessorById(String id) throws Exception {
 		Optional<Professor> professor = professorRepo.findById(id);
 		if (professor.isPresent()) {
 			return professor.get();
@@ -44,7 +44,7 @@ public class ProfessorService implements IProfessorService {
 	}
 
 	@Override
-	public Professor updateProfessor(Professor professor, long id) throws Exception {
+	public Professor updateProfessor(Professor professor, String id) throws Exception {
 		if (professorRepo.findById(id) != null) {
 			professor.setId(id);
 			return professorRepo.save(professor);
@@ -54,7 +54,7 @@ public class ProfessorService implements IProfessorService {
 	}
 
 	@Override
-	public void deleteProfessor(long id) throws Exception {
+	public void deleteProfessor(String id) throws Exception {
 		if (professorRepo.findById(id) != null)
 			professorRepo.deleteById(id);
 		else

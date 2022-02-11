@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 
 @Setter
 @Getter
@@ -22,7 +21,7 @@ import org.bson.types.ObjectId;
 public class Student {
 	
 	@Id
-	private ObjectId id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private int Age;
@@ -30,10 +29,10 @@ public class Student {
     private Lesson lesson;
     
     
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFirstName() {

@@ -34,12 +34,12 @@ public class LessonService implements ILessonService {
 
 	@Override
 	public Lesson addNewLesson(Lesson lesson) {
-		lesson.setId(counter.getNextSequence("Lesson"));
+//		lesson.setId(counter.getNextSequence("Lesson"));
 		return lessonRepo.save(lesson);
 	}
 
 	@Override
-	public void deleteLesoon(long id) throws Exception {
+	public void deleteLesoon(String id) throws Exception {
 		if (lessonRepo.findById(id) != null)
 			lessonRepo.deleteById(id);
 		else
@@ -48,19 +48,29 @@ public class LessonService implements ILessonService {
 	}
 
 	@Override
-	public Lesson updateLessonsClassroom(long lesson_id, long classroom_id) {
+	public Lesson updateLessonsClassroom(String lesson_id, String classroom_id) {
 		Lesson lesson = lessonRepo.findById(lesson_id).get();
 		Classroom classroom = classroomRepo.findById(classroom_id).get();
 		lesson.setClassroom(classroom);
 		return lessonRepo.save(lesson);
 	}
 
-	public Lesson getLessonById(long id) throws Exception {
+	public Lesson getLessonById(String id) throws Exception {
 		Lesson lesson = lessonRepo.findById(id).get();
 		if (lesson != null)
 			return lesson;
 		else
 			throw new Exception();
+	}
+
+	@Override
+	public Lesson updateLesson(String id, Lesson lesson) throws Exception {
+		if (lessonRepo.findById(id) != null) {
+			lesson.setId(id);
+			return lessonRepo.save(lesson);
+		} else
+			throw new Exception();
+
 	}
 
 }

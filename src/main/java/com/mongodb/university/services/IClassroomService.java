@@ -11,10 +11,12 @@ public interface IClassroomService {
 	
 	public List<Classroom> getAllClassrooms();
 	
-	public Classroom getClassroomById(long id) throws Exception;
+	public Classroom getClassroomById(String id) throws Exception;
 	
 	public Classroom addNewClassroom(Classroom classroom);
 	
-	public void deleteClassroom(long id) throws Exception;
+	public void deleteClassroom(String id) throws Exception;
+	
+	public Classroom updateClassroom(String id, Classroom classroom) throws Exception;
 
 }

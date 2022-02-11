@@ -13,9 +13,9 @@ public interface IProfessorService {
 
 	public Professor addNewProfessor(Professor student);
 	
-	public Professor getProfessorById(long id) throws Exception;
+	public Professor getProfessorById(String id) throws Exception;
 	
-	public Professor updateProfessor(Professor professor, long id) throws Exception;
+	public Professor updateProfessor(Professor professor, String id) throws Exception;
 	
-	public void deleteProfessor(long id) throws Exception;
+	public void deleteProfessor(String id) throws Exception;
 }

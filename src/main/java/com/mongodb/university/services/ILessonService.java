@@ -12,10 +12,12 @@ public interface ILessonService {
 	
 	public Lesson addNewLesson(Lesson lesson);
 	
-	public void deleteLesoon(long id) throws Exception;
+	public Lesson updateLesson(String id, Lesson lesson) throws Exception;
 	
-	public Lesson updateLessonsClassroom(long lesson_id, long classroom_id);
+	public void deleteLesoon(String id) throws Exception;
 	
-	public Lesson getLessonById(long id) throws Exception;
+	public Lesson updateLessonsClassroom(String lesson_id, String classroom_id);
+	
+	public Lesson getLessonById(String id) throws Exception;
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.university.models.Lesson;
+import com.mongodb.university.models.Professor;
 import com.mongodb.university.services.ILessonService;
 
 
@@ -39,7 +40,7 @@ public class LessonController {
 	}
 	
 	@GetMapping("/{id}")
-	public Lesson getLessonById(long id) throws Exception {
+	public Lesson getLessonById(String id) throws Exception {
 		return lessonService.getLessonById(id);
 		
 	}
@@ -50,14 +51,20 @@ public class LessonController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteLesson(@PathVariable("id") long id) throws Exception{
+	public ResponseEntity<String> deleteLesson(@PathVariable("id") String id) throws Exception{
 		lessonService.deleteLesoon(id);
 		return new ResponseEntity<String>("The lesson has deleted successfully!",HttpStatus.OK);
 		
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Lesson> updateLesson(@PathVariable("id") String id, @RequestBody Lesson lesson)
+			throws Exception {
+		return new ResponseEntity<Lesson>(lessonService.updateLesson(id, lesson), HttpStatus.OK);
+	}
+	
 	@PutMapping("/{lesson_id}/classroom/{classroom_id}")
-	public ResponseEntity<Lesson> updateLessonsClassroom(@PathVariable("lesson_id") long lesson_id, @PathVariable("classroom_id") long classroom_id){
+	public ResponseEntity<Lesson> updateLessonsClassroom(@PathVariable("lesson_id") String lesson_id, @PathVariable("classroom_id") String classroom_id){
 		return new ResponseEntity<Lesson>(lessonService.updateLessonsClassroom(lesson_id, classroom_id), HttpStatus.OK);
 	}
 

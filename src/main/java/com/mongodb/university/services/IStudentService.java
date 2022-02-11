@@ -10,15 +10,16 @@ public interface IStudentService {
 	
 	public List<Student> getAllStudents();
 	
-	public Student getStudentById(long id) throws Exception;
+	public Student getStudentById(String id) throws Exception;
 	
 	public Student addNewStudent(Student student);
 	
-	public Student updateStudent(Student student, long id) throws Exception;
+	public Student updateStudent(Student student, String id) throws Exception;
 	
-	public void deleteStudent(long id) throws Exception;
+	public void deleteStudent(String id) throws Exception;
 	
-	public Student updateProfessorsList(long stud_id, long prof_id);
+	public Student updateProfessorsList(String stud_id, String prof_id);
 	
-	public Student updateStudentsLesson(long stud_id, long lesson_id);
+	public Student updateStudentsLesson(String stud_id, String lesson_id);
+
 }

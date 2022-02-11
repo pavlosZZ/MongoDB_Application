@@ -14,17 +14,17 @@ import lombok.*;
 public class Classroom {
 	
 	@Id
-	private long id;
+	private String id;
 	
 	private String class_name;
 	@JsonBackReference
     private Lesson lesson;
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

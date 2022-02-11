@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.university.models.Classroom;
+import com.mongodb.university.models.Lesson;
 import com.mongodb.university.services.IClassroomService;
 
 
@@ -40,8 +42,14 @@ public class ClassroomController {
 		return new ResponseEntity<Classroom>(classroomService.addNewClassroom(classroom), HttpStatus.CREATED);
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Classroom> updateClassroom(@PathVariable("id") String id, @RequestBody Classroom classroom)
+			throws Exception {
+		return new ResponseEntity<Classroom>(classroomService.updateClassroom(id, classroom), HttpStatus.OK);
+	}
+	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteClassroom(@PathVariable("id") long id) throws Exception{
+	public ResponseEntity<String> deleteClassroom(@PathVariable("id") String id) throws Exception{
 		classroomService.deleteClassroom(id);
 		return new ResponseEntity<String>("The classroom has deleted successfully!", HttpStatus.OK);
 	}

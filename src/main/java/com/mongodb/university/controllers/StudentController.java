@@ -28,7 +28,7 @@ public class StudentController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Student> getEmployeeById(@PathVariable("id") long id) throws Exception {
+	public ResponseEntity<Student> getEmployeeById(@PathVariable("id") String id) throws Exception {
 		return new ResponseEntity<Student>(studentService.getStudentById(id), HttpStatus.OK);
 	}
 
@@ -39,27 +39,27 @@ public class StudentController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") long id)
+	public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") String id)
 			throws Exception {
 		return new ResponseEntity<Student>(studentService.updateStudent(student, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable("id") long id) throws Exception {
+	public ResponseEntity<String> deleteEmployee(@PathVariable("id") String id) throws Exception {
 		studentService.deleteStudent(id);
 		return new ResponseEntity<String>("Student has deleted successfully!", HttpStatus.OK);
 	}
 
 	@PutMapping("/{stud_id}/professor/{prof_id}")
-	public ResponseEntity<Student> updateProfessorsList(@PathVariable("stud_id") long stud_id,
-			@PathVariable("prof_id") long prof_id) {
+	public ResponseEntity<Student> updateProfessorsList(@PathVariable("stud_id") String stud_id,
+			@PathVariable("prof_id") String prof_id) {
 		return new ResponseEntity<Student>(studentService.updateProfessorsList(stud_id, prof_id), HttpStatus.OK);
 
 	}
 
 	@PutMapping("/{stud_id}/lesson/{lesson_id}")
-	public ResponseEntity<Student> updateStudentsLesson(@PathVariable("stud_id") long stud_id,
-			@PathVariable("lesson_id") long lesson_id) {
+	public ResponseEntity<Student> updateStudentsLesson(@PathVariable("stud_id") String stud_id,
+			@PathVariable("lesson_id") String lesson_id) {
 		return new ResponseEntity<Student>(studentService.updateStudentsLesson(stud_id, lesson_id), HttpStatus.OK);
 	}
 
