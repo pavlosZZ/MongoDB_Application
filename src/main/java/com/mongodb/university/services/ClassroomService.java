@@ -12,7 +12,7 @@ import com.mongodb.university.repositories.IClassroomRepository;
 public class ClassroomService implements IClassroomService {
 
 	private IClassroomRepository classroomRepo;
-	private NextSequenceService counter;
+	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
 	public ClassroomService(IClassroomRepository classroomRepo, NextSequenceService counter) {

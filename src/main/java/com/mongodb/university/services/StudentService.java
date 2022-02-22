@@ -1,5 +1,6 @@
 package com.mongodb.university.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class StudentService implements IStudentService {
 	private IProfessorRepository professorRepo;
 
 	private ILessonRepository lessonRepo;
-	private NextSequenceService counter;
+	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
 	public StudentService(IStudentRepository studentRepo, IProfessorRepository professorRepo,
@@ -42,6 +43,20 @@ public class StudentService implements IStudentService {
 	public Student addNewStudent(Student student) {
 //		student.setId(counter.getNextSequence("Student"));
 //		student.setId(String.valueOf(counter.getNextSequence("Student")));
+		List<Professor> new_professors = student.getProfessors();
+		for(int i = 0; i< new_professors.size(); i++) {
+			Professor prof = new_professors.get(i);
+			if(prof.getId() == null)
+				professorRepo.save(prof);
+			else
+			{
+				prof.setId(prof.getId());
+				professorRepo.save(prof);
+			}
+				
+		}
+//		new_professors.stream().filter((p) -> p.getLastName().equals()).forEach((p) -> professorRepo.save(p));
+//		student.setProfessors(new_professors);
 		return studentRepo.save(student);
 	}
 
@@ -57,10 +72,18 @@ public class StudentService implements IStudentService {
 	public Student updateStudent(Student student, String id) throws Exception {
 
 		if (studentRepo.findById(id) != null) {
+			List<Professor> professors = student.getProfessors();
+			Lesson lesson = student.getLesson();
+			for(Professor prof : professors) {
+				if(prof.getId() == null)
+					professorRepo.save(prof);
+			}
+			if(lesson != null) {
+				 if(lesson.getId() == null)
+					lessonRepo.save(lesson);
+			}
 			student.setId(id);
-
 			studentRepo.save(student);
-
 			return student;
 		} else {
 			throw new Exception();

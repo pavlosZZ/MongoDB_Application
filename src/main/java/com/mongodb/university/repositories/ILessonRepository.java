@@ -9,11 +9,9 @@ import com.mongodb.university.models.Lesson;
 
 @Repository
 public interface ILessonRepository extends MongoRepository<Lesson, Long>{
-
-
-
-	void deleteById(String id);
-
+	
 	Optional<Lesson> findById(String lesson_id);
+	
+	void deleteById(String id);
 
 }

@@ -10,7 +10,7 @@ public interface ILessonService {
 	
 	public List<Lesson> getAllLessons();
 	
-	public Lesson addNewLesson(Lesson lesson);
+	public Lesson addNewLesson(Lesson lesson) throws Exception;
 	
 	public Lesson updateLesson(String id, Lesson lesson) throws Exception;
 	

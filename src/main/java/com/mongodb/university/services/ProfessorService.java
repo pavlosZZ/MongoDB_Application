@@ -13,13 +13,13 @@ import com.mongodb.university.repositories.IProfessorRepository;
 public class ProfessorService implements IProfessorService {
 
 	private IProfessorRepository professorRepo;
-	private NextSequenceService counter;
+	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
 	public ProfessorService(IProfessorRepository professorRepo, NextSequenceService counter) {
 		super();
 		this.professorRepo = professorRepo;
-		this.counter = counter;
+		this.counter = counter; 
 	}
 
 	@Override

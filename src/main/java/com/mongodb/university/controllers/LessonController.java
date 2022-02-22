@@ -47,7 +47,7 @@ public class LessonController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Lesson> addNewLesson(@RequestBody Lesson lesson){
+	public ResponseEntity<Lesson> addNewLesson(@RequestBody Lesson lesson) throws Exception{
 		return new ResponseEntity<Lesson>(lessonService.addNewLesson(lesson),HttpStatus.CREATED);
 	}
 	
