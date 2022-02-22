@@ -83,13 +83,15 @@ public class StudentService implements IStudentService {
 			if (lesson != null) {
 				if (lesson.getId() == null) {
 					lessonRepo.save(lesson);
-					String classroom_id = lesson.getClassroom().getId();
-					if (classroom_id == null)
-						classroomRepo.save(lesson.getClassroom());
+					if(lesson.getClassroom() != null) {
+						if (lesson.getClassroom().getId() == null)
+							classroomRepo.save(lesson.getClassroom());
+					}
 				} else {
-					String classroom_id = lesson.getClassroom().getId();
-					if (classroom_id == null)
-						classroomRepo.save(lesson.getClassroom());
+					if(lesson.getClassroom() != null) {
+						if (lesson.getClassroom().getId() == null)
+							classroomRepo.save(lesson.getClassroom());
+					}
 				}
 
 			}
