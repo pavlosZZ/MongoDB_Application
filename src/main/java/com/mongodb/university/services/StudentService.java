@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.university.models.Lesson;
 import com.mongodb.university.models.Professor;
 import com.mongodb.university.models.Student;
+import com.mongodb.university.repositories.IClassroomRepository;
 import com.mongodb.university.repositories.ILessonRepository;
 import com.mongodb.university.repositories.IProfessorRepository;
 import com.mongodb.university.repositories.IStudentRepository;
@@ -22,15 +23,17 @@ public class StudentService implements IStudentService {
 	private IProfessorRepository professorRepo;
 
 	private ILessonRepository lessonRepo;
+	private IClassroomRepository classroomRepo;
 	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
 	public StudentService(IStudentRepository studentRepo, IProfessorRepository professorRepo,
-			ILessonRepository lessonRepo, NextSequenceService counter) {
+			ILessonRepository lessonRepo, IClassroomRepository classroomRepo, NextSequenceService counter) {
 		super();
 		this.studentRepo = studentRepo;
 		this.professorRepo = professorRepo;
 		this.lessonRepo = lessonRepo;
+		this.classroomRepo = classroomRepo;
 		this.counter = counter;
 	}
 
@@ -44,16 +47,15 @@ public class StudentService implements IStudentService {
 //		student.setId(counter.getNextSequence("Student"));
 //		student.setId(String.valueOf(counter.getNextSequence("Student")));
 		List<Professor> new_professors = student.getProfessors();
-		for(int i = 0; i< new_professors.size(); i++) {
+		for (int i = 0; i < new_professors.size(); i++) {
 			Professor prof = new_professors.get(i);
-			if(prof.getId() == null)
+			if (prof.getId() == null)
 				professorRepo.save(prof);
-			else
-			{
+			else {
 				prof.setId(prof.getId());
 				professorRepo.save(prof);
 			}
-				
+
 		}
 //		new_professors.stream().filter((p) -> p.getLastName().equals()).forEach((p) -> professorRepo.save(p));
 //		student.setProfessors(new_professors);
@@ -74,13 +76,22 @@ public class StudentService implements IStudentService {
 		if (studentRepo.findById(id) != null) {
 			List<Professor> professors = student.getProfessors();
 			Lesson lesson = student.getLesson();
-			for(Professor prof : professors) {
-				if(prof.getId() == null)
+			for (Professor prof : professors) {
+				if (prof.getId() == null)
 					professorRepo.save(prof);
 			}
-			if(lesson != null) {
-				 if(lesson.getId() == null)
+			if (lesson != null) {
+				if (lesson.getId() == null) {
 					lessonRepo.save(lesson);
+					String classroom_id = lesson.getClassroom().getId();
+					if (classroom_id == null)
+						classroomRepo.save(lesson.getClassroom());
+				} else {
+					String classroom_id = lesson.getClassroom().getId();
+					if (classroom_id == null)
+						classroomRepo.save(lesson.getClassroom());
+				}
+
 			}
 			student.setId(id);
 			studentRepo.save(student);
