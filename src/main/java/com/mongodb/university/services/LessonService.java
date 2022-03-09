@@ -9,23 +9,27 @@ import org.springframework.stereotype.Service;
 import com.mongodb.university.models.Classroom;
 import com.mongodb.university.models.Lesson;
 import com.mongodb.university.models.Professor;
+import com.mongodb.university.models.Student;
 import com.mongodb.university.repositories.IClassroomRepository;
 import com.mongodb.university.repositories.ILessonRepository;
+import com.mongodb.university.repositories.IStudentRepository;
 
 @Service
 public class LessonService implements ILessonService {
 
 	private ILessonRepository lessonRepo;
 
+	private IStudentRepository studentRepo;
 	private IClassroomRepository classroomRepo;
 	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
-	public LessonService(ILessonRepository lessonRepo, IClassroomRepository classroomRepo,
+	public LessonService(ILessonRepository lessonRepo, IClassroomRepository classroomRepo, IStudentRepository studentRepo,
 			NextSequenceService counter) {
 		super();
 		this.lessonRepo = lessonRepo;
 		this.classroomRepo = classroomRepo;
+		this.studentRepo = studentRepo;
 		this.counter = counter;
 	}
 
@@ -48,7 +52,7 @@ public class LessonService implements ILessonService {
 			for (Lesson element : lessons) {
 				Classroom check_classroom = element.getClassroom();
 				String element_id = check_classroom.getId();
-				if (check_id == element_id) {
+				if (check_id.equalsIgnoreCase(element_id)) {
 					throw new Exception("Classroom with id :" + check_id + "is already used.");
 				}
 			}
@@ -101,12 +105,23 @@ public class LessonService implements ILessonService {
 					if (lesson_classroom == null)
 						continue;
 					String element_id = lesson_classroom.getId();
-					if (check_id == element_id) {
+					if (check_id.equals(element_id)) {
+						if(element.getId().equals(id))
+							break;
 						throw new Exception("Classroom with id :" + check_id + "is already used.");
 					}				
 				}
+				classroomRepo.save(new_classroom);
+				lesson.setClassroom(new_classroom);
 			}
 			lesson.setId(id);
+			List<Student> students = studentRepo.findAll();
+			for(Student stud : students) {
+				if(stud.getLesson().getId()==lesson.getId()) {
+					stud.setLesson(lesson);
+					studentRepo.save(stud);
+				}
+			}
 			return lessonRepo.save(lesson);
 
 		} else

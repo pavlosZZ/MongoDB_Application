@@ -79,6 +79,10 @@ public class StudentService implements IStudentService {
 			for (Professor prof : professors) {
 				if (prof.getId() == null)
 					professorRepo.save(prof);
+				else {
+					prof.setId(prof.getId());
+					professorRepo.save(prof);		
+				}
 			}
 			if (lesson != null) {
 				if (lesson.getId() == null) {
@@ -86,18 +90,26 @@ public class StudentService implements IStudentService {
 					if(lesson.getClassroom() != null) {
 						if (lesson.getClassroom().getId() == null)
 							classroomRepo.save(lesson.getClassroom());
+						else {
+							lesson.getClassroom().setId(lesson.getClassroom().getId());
+							classroomRepo.save(lesson.getClassroom());
+						}
 					}
 				} else {
 					if(lesson.getClassroom() != null) {
 						if (lesson.getClassroom().getId() == null)
 							classroomRepo.save(lesson.getClassroom());
+						else {
+							lesson.getClassroom().setId(lesson.getClassroom().getId());
+							classroomRepo.save(lesson.getClassroom());
+						}						
 					}
 				}
-
+				lesson.setId(lesson.getId());
+				lessonRepo.save(lesson);
 			}
 			student.setId(id);
-			studentRepo.save(student);
-			return student;
+			return studentRepo.save(student);
 		} else {
 			throw new Exception();
 		}
