@@ -56,9 +56,18 @@ public class LessonService implements ILessonService {
 					throw new Exception("Classroom with id :" + check_id + "is already used.");
 				}
 			}
-			new_classroom.setId(check_id);
 			classroomRepo.save(new_classroom);
+			lesson.setClassroom(new_classroom);
 		}
+		List<Student> students = studentRepo.findAll();
+		for(Student stud : students) {
+			if(stud.getLesson() != null) {
+				if(stud.getLesson().getId().equals(lesson.getId())) {
+					stud.setLesson(lesson);
+					studentRepo.save(stud);
+					}
+				}
+			}
 		return lessonRepo.save(lesson);
 	}
 
@@ -116,10 +125,12 @@ public class LessonService implements ILessonService {
 			}
 			lesson.setId(id);
 			List<Student> students = studentRepo.findAll();
-			for(Student stud : students) {
-				if(stud.getLesson().getId()==lesson.getId()) {
-					stud.setLesson(lesson);
-					studentRepo.save(stud);
+			for (Student stud : students) {
+				if (stud.getLesson() != null) {
+					if (stud.getLesson().getId().equals(lesson.getId())) {
+						stud.setLesson(lesson);
+						studentRepo.save(stud);
+					}
 				}
 			}
 			return lessonRepo.save(lesson);

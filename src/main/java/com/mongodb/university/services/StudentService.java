@@ -47,6 +47,7 @@ public class StudentService implements IStudentService {
 //		student.setId(counter.getNextSequence("Student"));
 //		student.setId(String.valueOf(counter.getNextSequence("Student")));
 		List<Professor> new_professors = student.getProfessors();
+		Lesson lesson = student.getLesson();
 		for (int i = 0; i < new_professors.size(); i++) {
 			Professor prof = new_professors.get(i);
 			if (prof.getId() == null)
@@ -55,7 +56,30 @@ public class StudentService implements IStudentService {
 				prof.setId(prof.getId());
 				professorRepo.save(prof);
 			}
-
+		}
+		if (lesson != null) {
+			if (lesson.getId() == null) {
+				lessonRepo.save(lesson);
+				if(lesson.getClassroom() != null) {
+					if (lesson.getClassroom().getId() == null)
+						classroomRepo.save(lesson.getClassroom());
+					else {
+						lesson.getClassroom().setId(lesson.getClassroom().getId());
+						classroomRepo.save(lesson.getClassroom());
+					}
+				}
+			} else {
+				if(lesson.getClassroom() != null) {
+					if (lesson.getClassroom().getId() == null)
+						classroomRepo.save(lesson.getClassroom());
+					else {
+						lesson.getClassroom().setId(lesson.getClassroom().getId());
+						classroomRepo.save(lesson.getClassroom());
+					}						
+				}
+			}
+			lesson.setId(lesson.getId());
+			lessonRepo.save(lesson);
 		}
 //		new_professors.stream().filter((p) -> p.getLastName().equals()).forEach((p) -> professorRepo.save(p));
 //		student.setProfessors(new_professors);
