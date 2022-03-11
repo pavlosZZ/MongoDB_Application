@@ -7,18 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.university.models.Professor;
+import com.mongodb.university.models.Student;
 import com.mongodb.university.repositories.IProfessorRepository;
+import com.mongodb.university.repositories.IStudentRepository;
 
 @Service
 public class ProfessorService implements IProfessorService {
 
 	private IProfessorRepository professorRepo;
+	private IStudentRepository studentRepo;
 	private NextSequenceService counter; // It's not in use.
 
 	@Autowired
-	public ProfessorService(IProfessorRepository professorRepo, NextSequenceService counter) {
+	public ProfessorService(IProfessorRepository professorRepo, IStudentRepository studentRepo, NextSequenceService counter) {
 		super();
 		this.professorRepo = professorRepo;
+		this.studentRepo = studentRepo;
 		this.counter = counter; 
 	}
 
@@ -55,8 +59,25 @@ public class ProfessorService implements IProfessorService {
 
 	@Override
 	public void deleteProfessor(String id) throws Exception {
-		if (professorRepo.findById(id) != null)
+		if (professorRepo.findById(id) != null) {
+			boolean flag = false;
+			List<Student> students = studentRepo.findAll();
+			for(Student stud : students) {
+				List<Professor> professors = stud.getProfessors();
+				for(Professor prof : professors) {
+					if(prof.getId().equals(id)) {
+						professors.remove(prof);
+						studentRepo.save(stud);
+						flag = true;
+						break;
+					}
+				}
+				if(flag)
+					break;
+			}
 			professorRepo.deleteById(id);
+			
+		}
 		else
 			throw new Exception();
 	}

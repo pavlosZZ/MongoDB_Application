@@ -88,8 +88,8 @@ public class StudentService implements IStudentService {
 
 	@Override
 	public void deleteStudent(String id) throws Exception {
-		if (studentRepo.findById(id) != null)
-			studentRepo.deleteById(id);
+		if (studentRepo.findById(id) != null) 		
+			studentRepo.deleteById(id);	
 		else
 			throw new Exception("There is no student with id:" + id);
 	}

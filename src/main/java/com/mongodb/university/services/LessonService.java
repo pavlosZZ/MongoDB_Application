@@ -73,8 +73,18 @@ public class LessonService implements ILessonService {
 
 	@Override
 	public void deleteLesoon(String id) throws Exception {
-		if (lessonRepo.findById(id) != null)
+		if (lessonRepo.findById(id) != null) {
+			List<Student> students = studentRepo.findAll();
+			for(Student stud : students) {
+				Lesson stud_lesson = stud.getLesson();
+				if(stud_lesson.getId().equals(id)) {
+					stud.setLesson(null);
+					studentRepo.save(stud);
+					break;
+				}
+			}
 			lessonRepo.deleteById(id);
+		}
 		else
 			throw new Exception();
 
