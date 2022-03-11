@@ -33,7 +33,7 @@ public class StudentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Student> addNewStudent(@RequestBody Student student) {
+	public ResponseEntity<Student> addNewStudent(@RequestBody Student student) throws Exception {
 		return new ResponseEntity<Student>(studentService.addNewStudent(student), HttpStatus.CREATED);
 
 	}

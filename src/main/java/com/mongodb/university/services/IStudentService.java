@@ -12,7 +12,7 @@ public interface IStudentService {
 	
 	public Student getStudentById(String id) throws Exception;
 	
-	public Student addNewStudent(Student student);
+	public Student addNewStudent(Student student) throws Exception;
 	
 	public Student updateStudent(Student student, String id) throws Exception;
 	

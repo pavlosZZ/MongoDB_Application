@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.university.models.Classroom;
 import com.mongodb.university.models.Lesson;
 import com.mongodb.university.models.Professor;
 import com.mongodb.university.models.Student;
@@ -43,27 +44,26 @@ public class StudentService implements IStudentService {
 	}
 
 	@Override
-	public Student addNewStudent(Student student) {
+	public Student addNewStudent(Student student) throws Exception {
 //		student.setId(counter.getNextSequence("Student"));
 //		student.setId(String.valueOf(counter.getNextSequence("Student")));
 		List<Professor> new_professors = student.getProfessors();
 		Lesson lesson = student.getLesson();
-		for (int i = 0; i < new_professors.size(); i++) {
-			Professor prof = new_professors.get(i);
-			if (prof.getId() == null)
-				professorRepo.save(prof);
-			else {
-				prof.setId(prof.getId());
-				professorRepo.save(prof);
-			}
-		}
 		if (lesson != null) {
 			if (lesson.getId() == null) {
-				lessonRepo.save(lesson);
 				if(lesson.getClassroom() != null) {
 					if (lesson.getClassroom().getId() == null)
 						classroomRepo.save(lesson.getClassroom());
 					else {
+						List<Lesson> lessons = lessonRepo.findAll();
+					    String check_id = lesson.getClassroom().getId();
+						for (Lesson element : lessons) {
+							Classroom check_classroom = element.getClassroom();
+							String element_id = check_classroom.getId();
+							if (check_id.equalsIgnoreCase(element_id)) {
+								throw new Exception("Classroom with id :" + check_id + "is already used.");
+							}
+						}
 						lesson.getClassroom().setId(lesson.getClassroom().getId());
 						classroomRepo.save(lesson.getClassroom());
 					}
@@ -73,6 +73,15 @@ public class StudentService implements IStudentService {
 					if (lesson.getClassroom().getId() == null)
 						classroomRepo.save(lesson.getClassroom());
 					else {
+						List<Lesson> lessons = lessonRepo.findAll();
+					    String check_id = lesson.getClassroom().getId();
+						for (Lesson element : lessons) {
+							Classroom check_classroom = element.getClassroom();
+							String element_id = check_classroom.getId();
+							if (check_id.equalsIgnoreCase(element_id)) {
+								throw new Exception("Classroom with id :" + check_id + "is already used.");
+							}
+						}
 						lesson.getClassroom().setId(lesson.getClassroom().getId());
 						classroomRepo.save(lesson.getClassroom());
 					}						
@@ -81,10 +90,21 @@ public class StudentService implements IStudentService {
 			lesson.setId(lesson.getId());
 			lessonRepo.save(lesson);
 		}
+		for (int i = 0; i < new_professors.size(); i++) {
+			Professor prof = new_professors.get(i);
+			if (prof.getId() == null)
+				professorRepo.save(prof);
+			else {
+				prof.setId(prof.getId());
+				professorRepo.save(prof);
+			}
+		}
 //		new_professors.stream().filter((p) -> p.getLastName().equals()).forEach((p) -> professorRepo.save(p));
 //		student.setProfessors(new_professors);
 		return studentRepo.save(student);
+		
 	}
+	
 
 	@Override
 	public void deleteStudent(String id) throws Exception {
@@ -100,21 +120,22 @@ public class StudentService implements IStudentService {
 		if (studentRepo.findById(id) != null) {
 			List<Professor> professors = student.getProfessors();
 			Lesson lesson = student.getLesson();
-			for (Professor prof : professors) {
-				if (prof.getId() == null)
-					professorRepo.save(prof);
-				else {
-					prof.setId(prof.getId());
-					professorRepo.save(prof);		
-				}
-			}
 			if (lesson != null) {
 				if (lesson.getId() == null) {
-					lessonRepo.save(lesson);
 					if(lesson.getClassroom() != null) {
-						if (lesson.getClassroom().getId() == null)
+						if (lesson.getClassroom().getId() == null) {
 							classroomRepo.save(lesson.getClassroom());
+						}							
 						else {
+							List<Lesson> lessons = lessonRepo.findAll();
+						    String check_id = lesson.getClassroom().getId();
+							for (Lesson element : lessons) {
+								Classroom check_classroom = element.getClassroom();
+								String element_id = check_classroom.getId();
+								if (check_id.equalsIgnoreCase(element_id)) {
+									throw new Exception("Classroom with id :" + check_id + "is already used.");
+								}
+							}
 							lesson.getClassroom().setId(lesson.getClassroom().getId());
 							classroomRepo.save(lesson.getClassroom());
 						}
@@ -131,6 +152,14 @@ public class StudentService implements IStudentService {
 				}
 				lesson.setId(lesson.getId());
 				lessonRepo.save(lesson);
+			}
+			for (Professor prof : professors) {
+				if (prof.getId() == null)
+					professorRepo.save(prof);
+				else {
+					prof.setId(prof.getId());
+					professorRepo.save(prof);		
+				}
 			}
 			student.setId(id);
 			return studentRepo.save(student);
